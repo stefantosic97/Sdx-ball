@@ -1,0 +1,61 @@
+body{
+    color: rgb(255, 255, 255);
+}
+.manu{
+    background-image:url("img/bgr.jpg");
+    width: 600px;
+    height: 700px;
+    margin-left: 330px;
+    border:3px  black;  
+    border-style:ridge;
+    margin-top: 50px;
+}
+
+
+
+#sounddd{
+        width:40px;
+        height: 40px;
+        cursor: pointer;
+        position: absolute;
+        top: 750px;
+        left:335px;
+        }
+
+  
+h1{
+margin-left: 10px;
+margin-right: 120px;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 75px;
+  
+  font-style: oblique;
+  font-weight: bolder;
+  padding-top: 50px;
+  padding-left: 120px;
+  padding-right: 0px;  
+}   
+p{
+font-size: 20px;
+margin: 20px;
+}
+#arrow{
+
+height: 40px;
+width: 40px;
+cursor: pointer;
+position: absolute;
+top: 750px;
+left:895px;
+
+}   
+h2{
+    font-display: bold;
+    color: yellow;
+    margin-left: 225px;
+}
+#strelice{
+    margin-left: 185px;
+    height: 160px;
+    width: 200px;
+}

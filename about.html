@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="about.css">
+    <title>Document</title>
+</head>
+
+<body >
+    <div class="manu" id="menu">
+       <h1>
+           O video igri
+       </h1> 
+     <p>
+          Video igra SDXBall-srusi sve cigle kako bi pobedio. Napravljena od strane studenta Stefana Tosica.
+     </p>
+    
+     <h2>Kontrole:</h2>
+     <img src="img/arrowkeys.jpg" alt="strelice" id="strelice" >
+     <p>
+         Koristi navigacione strelice levo i desno kako bi se plocica kretala u levu ili desnu stranu.
+     </p>
+
+    </div>
+    <div class="sound">
+         
+        <img src="img/soundon.jpg" alt="" id="sounddd" onclick="audiom()" >
+        
+   </div>
+   <audio id="audioID">
+    <source src="zvukovi/paddle.wav" type="audio/wav">
+    
+  
+  </audio>
+  <a href="index.html"><img src="img/arrow.jpg" alt="" id="arrow" ></a>
+    <script>
+        const fort= new Audio();
+        fort.src="zvukovi/fn.mp3"
+   
+
+  
+ 
+ 
+var audio1 = document.getElementById("audioID");
+
+
+
+function playAudio() {
+  audio1.play();
+}
+const gett=document.getElementById("sounddd");
+       gett.addEventListener("click",audiom);
+       function audiom(){
+           var imgsrc=gett.getAttribute("src");
+           var soundimg=imgsrc=="img/soundon.jpg" ? "img/soundoff.jpg":"img/soundon.jpg";
+           gett.setAttribute("src",soundimg);
+
+          fort.muted=fort.muted ? false:true;
+          audio1.muted=audio1.muted ? false:true;
+          
+       }
+       fort.play();
+
+    
+    </script>
+</body>
+</html>

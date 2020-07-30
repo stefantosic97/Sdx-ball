@@ -1,0 +1,166 @@
+body{
+    color: rgb(255, 255, 255);
+}
+#menu{
+    background-image:url("img/bgr.jpg");
+    width: 600px;
+    height: 700px;
+    margin-left: 330px;
+    border:3px  black;  
+    border-style:ridge;
+    margin-top: 50px;
+}
+
+#naslov{
+    margin: 30px auto;
+    text-align: center;
+
+}
+li{
+  list-style: none;
+  width: 210px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  position: absolute;
+  left: calc(50%-125px);
+  border: 2px solid white;
+  background-color: yellow;
+  font-size: 24px;
+  text-shadow:  wheat;
+  cursor: pointer;
+  box-shadow: inset 0 0 20px rgba(255, 255,255, 0);
+  outline: 2px solid;
+  outline-color: rgba(255, 255,255, .6);
+  margin-left: 150px;
+  margin-top: 0px;
+  color: navy;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: oblique;
+  font-weight: bold;
+
+}
+#igraj{
+    top: 230px;
+
+}
+#stat{
+    top:330px;
+}
+#about{
+    top: 430px;
+}
+#exit{
+    top: 530px;
+}
+ul{
+    margin: 1px;
+}
+#logo{
+    margin-left: 200px;
+    height: 300px;
+    width: 300px; 
+}
+#sounddd{
+        width:40px;
+        height: 40px;
+        cursor: pointer;
+        position: absolute;
+        top: 750px;
+        left:335px;
+        }
+li:hover{
+  font-size: 30px;
+}  
+h1{
+
+ font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 75px;
+  
+  font-style: oblique;
+  font-weight: bolder;
+  padding-top: 0px;
+  padding-left: 120px;
+  padding-right: 0px;  
+}
+
+
+
+
+saidfhasifhsa
+body{
+    color: rgb(255, 255, 255);
+}
+.manu{
+    background-image:url("img/bgr.jpg");
+    width: 600px;
+    height: 700px;
+    margin-left: 330px;
+    
+    margin-top: 50px;
+    border:3px  black;  
+    border-style:ridge;
+}
+
+
+
+#sounddd{
+        width:40px;
+        height: 40px;
+        cursor: pointer;
+        position: absolute;
+        top: 750px;
+        left:335px;
+        }
+
+  
+h1{
+margin: 30px auto;
+text-align: center;
+margin-left: 10px;
+margin-right: 120px;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 75px;
+  
+  font-style: oblique;
+  font-weight: bolder;
+  padding-top: 10px;
+  padding-left: 120px;
+  padding-right: 0px;  
+}   
+
+  #highScoresList{
+    margin-left: 150px;
+    padding: 5px;
+    list-style-position: inside;
+    border: 2px solid white;
+    margin-right: 170px;
+    text-align: left;
+    background-color: yellow;
+    color: blue;
+    list-style-type: upper-roman;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: oblique;
+    font-weight: bold;
+    text-shadow: chartreuse;
+  }
+
+div{
+  color: white;
+}
+a{
+    margin-left: 250px;
+    margin-bottom: 600px;
+}
+#arrow{
+
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  position: absolute;
+  top: 750px;
+  left:895px;
+  
+  }
+
+

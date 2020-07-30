@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+ <link rel="stylesheet" href="statistika.css">
+</head>
+<body onload="fort.play();" >
+    
+
+  
+        <div class="manu" id="stat" >
+            
+          
+          <div id="highscores" class="flex-center flex-column">
+            <h1>Rang lista</h1>
+            <ol id="highScoresList"></ol>
+            
+        
+        </div>
+        </div>
+        <div class="sound">
+             
+            <img src="img/soundon.jpg" alt="" id="sounddd"  >
+            
+       </div>
+       <audio id="audioID">
+        <source src="zvukovi/paddle.wav" type="audio/wav">
+    
+      </audio>
+      <a href="index.html"><img src="img/arrow.jpg" alt="" id="arrow" ></a>
+      <script>
+      
+   
+     
+
+   const highScoresList = document.getElementById("highScoresList");
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+highScoresList.innerHTML = highScores
+  .map(score => {
+    return `<li class="high-score">${score.name} - ${score.score}</li>`;
+  })
+  .join("");
+    
+    
+const fort= new Audio();
+fort.src="zvukovi/fn.mp3"
+
+const gett=document.getElementById("sounddd");
+gett.addEventListener("click",audiom);
+
+function audiom(){
+   var imgsrc=gett.getAttribute("src");
+   var soundimg=imgsrc=="img/soundon.jpg" ? "img/soundoff.jpg":"img/soundon.jpg";
+   gett.setAttribute("src",soundimg);
+
+  fort.muted=fort.muted ? false:true;
+ 
+  
+}
+
+	
+     
+
+      </script>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SDXloptica</title>
+    <link rel="stylesheet" href="sdxball.css">
+
+    
+       
+</head>
+
+<body onload="scoresubmit();">
+
+
+    <div class="sound">
+
+        <img src="img/soundon.jpg" alt="" id="soundd">
+
+    </div>
+    <div id="gameover">
+        <img src="img/victoryroyale.jpg" alt="" id="victoryroyale">
+        <img src="img/gameover.jpg" alt="" id="loose">
+        <div id="restart">Pokušaj ponovo!</div>
+        <form id="statistika">
+            <input type="text" name="username" id="username" placeholder="korisničko ime" />
+            <button type="submit" class="btn" id="saveScoreBtn" onclick="saveHighScore(event)" disabled>
+                Sačuvaj
+            </button>
+        </form>
+    </div>
+    
+
+
+
+
+    <a href="index.html"><img src="img/arrow.jpg" alt="" id="arrow"></a>
+
+
+    <canvas id="sdx" width="600" height="700" style="border:3px  black;  
+    border-style:ridge;"></canvas>
+    
+    
+    <script>
+        var canvas = document.getElementById("sdx");
+        var ctx = canvas.getContext("2d");
+        var poluprecnik = 10;
+        var plocicavisina = 20;
+        var plocicasirina = 100;
+        var donjamargina = 50;
+        var rightPressed = false;
+        var leftPressed = false;
+        var game_over = false;
+        var level = 1;
+        var maxlevel = 3;
+        var secondlevel=2;
+        var color2 = promeniboju();
+        var color = promeniboju();
+        var score = 0;
+        var scorepoints = 10;
+        var lives = 3;
+        var padlcolor="red";
+        
+        const bgimg = new Image();
+        bgimg.src = "img/bgr.jpg";
+        const levelimg = new Image();
+        levelimg.src = "img/star.png"
+        const lifeimg = new Image();
+        lifeimg.src = "img/love.png"
+        const scoreimg = new Image();
+        scoreimg.src = "img/score.png"
+        const udaraccigla = new Audio();
+        udaraccigla.src = "zvukovi/brick.wav"
+        const lifelost = new Audio();
+        lifelost.src = "zvukovi/lifelost.wav"
+        const plocicae = new Audio();
+        plocicae.src = "zvukovi/paddle.wav"
+        const wall = new Audio();
+        wall.src = "zvukovi/wall.mp3"
+        const pobeda = new Audio();
+        pobeda.src = "zvukovi/win.mp3"
+        udaraccigla.currentTime = 0;
+
+        const plocica = {
+            x: canvas.width / 2 - plocicasirina / 2,
+            y: canvas.height - donjamargina - plocicavisina,
+            width: plocicasirina,
+            height: plocicavisina,
+            dx: 5
+        }
+
+        function drawplocica() {
+            ctx.rect(plocica.x, plocica.y, plocicasirina, plocicavisina);
+            ctx.strokeRect(plocica.x, plocica.y, plocicasirina, plocicavisina);
+            ctx.fillStyle = "red";
+            ctx.strokeStyle = "green";
+            
+            
+        }
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+
+        function keyDownHandler(event) {
+            if (event.keyCode == 39) {
+                rightPressed = true;
+            }
+            else if (event.keyCode == 37) {
+                leftPressed = true;
+            }
+        }
+        function keyUpHandler(event) {
+            if (event.keyCode == 39) {
+                rightPressed = false;
+            }
+            else if (event.keyCode == 37) {
+                leftPressed = false;
+            }
+        }
+        function moveplocica() {
+            if (rightPressed && plocica.x + plocicasirina < canvas.width) {
+                plocica.x += plocica.dx;
+            } else if (leftPressed && plocica.x > 0) {
+                plocica.x -= plocica.dx;
+
+            }
+        }
+
+        const loptica = {
+            x: canvas.width / 2,
+            y: plocica.y - poluprecnik,
+            radius: poluprecnik,
+            speed: 3.5,
+            dx: 3 * (Math.random() * 2 - 1),
+            dy: -3
+            
+
+        }
+        
+
+        function nacrtajLopticu() {
+            ctx.beginPath();
+            ctx.arc(loptica.x, loptica.y, poluprecnik, 0, Math.PI * 2);
+            ctx.strokeStyle = "white";
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+        }
+        function pomerilopticu() {
+            loptica.x += loptica.dx;
+            loptica.y += loptica.dy;
+        }
+
+        function koliyijaLopticeZida() {
+            if (loptica.x + poluprecnik > canvas.width || loptica.x - loptica.radius < 0) {
+                loptica.dx = -loptica.dx;
+
+                wall.play();
+            }
+            if (loptica.y - poluprecnik < 0) {
+                loptica.dy = -loptica.dy;
+
+                wall.play();
+
+            }
+            if (loptica.y + poluprecnik > canvas.height) {
+                lives--;
+                score-=70;
+                loptica.speed-=0.5;
+                lifelost.play();
+                resetloptica();
+            }
+        }
+        function kolizijalopticaplocica() {
+            if (loptica.x < plocica.x + plocicasirina && loptica.x > plocica.x && 
+                plocica.y < plocica.y + plocicavisina && loptica.y > plocica.y) {
+                plocicae.play();
+                let collidePoint = loptica.x - (plocica.x + plocicasirina / 2);
+                collidePoint = collidePoint / (plocicasirina / 2);
+                let angle = collidePoint * (Math.PI / 3);
+                loptica.dx = loptica.speed * Math.sin(angle);
+                loptica.dy = -loptica.speed * Math.cos(angle);
+                loptica.speed = loptica.speed + 0.1;
+
+
+            }
+        }
+        loptica.gravity=5.6;
+        loptica.gravitySpeed=0.3;
+        function resetloptica() {
+            loptica.x = canvas.width / 2;
+            loptica.y = plocica.y - poluprecnik;
+            loptica.dx = 3 * (Math.random() * 2 - 1);
+            loptica.dy = -3;
+            
+
+
+        }
+        const cigla = {
+            row: 6,
+            column: 8,
+            width: 50,
+            height: 20,
+            offSetLeft: 22,
+            offSetTop: 20,
+            marginTop: 30,
+
+            fillColor: "purple",
+            strokeColor: "white"
+
+        }
+
+        var cigle = [];
+        function kreirajcigle() {
+            for (var r = 0; r < cigla.row; r++) {
+                cigle[r] = [];
+                for (var c = 0; c < cigla.column; c++) {
+                    cigle[r][c] = {
+
+                        x: c * (cigla.offSetLeft + cigla.width) + cigla.offSetLeft,
+                        y: r * (cigla.offSetTop + cigla.height) + cigla.offSetTop + cigla.marginTop,
+                        status: true
+                    }
+                }
+            }
+        }
+        kreirajcigle();
+        function nacrtajCigle() {
+            for (var r = 0; r < cigla.row; r++) {
+                for (var c = 0; c < cigla.column; c++) {
+                    var z = cigle[r][c];
+
+                    if (z.status) {
+                        ctx.fillStyle = cigla.fillColor;
+                        ctx.strokeStyle = cigla.strokeColor;
+                        ctx.fillRect(z.x, z.y, cigla.width, cigla.height);
+                        ctx.strokeRect(z.x, z.y, cigla.width, cigla.height);
+
+                    }
+                }
+            }
+        }
+
+        function kolizijazidloptica() {
+            for (var r = 0; r < cigla.row; r++) {
+                for (var c = 0; c < cigla.column; c++) {
+                    var z = cigle[r][c];
+
+                    if (z.status) {
+                        if (loptica.x + loptica.radius > z.x && loptica.x - loptica.radius < z.x + cigla.width && 
+                        loptica.y + loptica.radius > z.y && loptica.y - loptica.radius < z.y + cigla.height) {
+                            udaraccigla.play();
+                            loptica.dy = -loptica.dy;
+                            z.status = false;
+                            score += scorepoints;
+                            color = promeniboju();
+                        }
+
+
+                    }
+                }
+
+            }
+        }
+        function levelup() {
+            var leverzavrsen = true;
+            for (var r = 0; r < cigla.row; r++) {
+                for (var c = 0; c < cigla.column; c++) {
+                    leverzavrsen = leverzavrsen && !cigle[r][c].status;
+
+
+                }
+            }
+            if (leverzavrsen) {
+                pobeda.play();
+                localStorage.setItem("mostRecentScore", score);
+
+                if (level >= maxlevel) {
+                    win();
+                    game_over = true;
+
+                    
+                }
+                plocicasirina = plocicasirina - 15;
+                cigla.row++;
+                kreirajcigle();
+                loptica.speed += 0.2;
+                resetloptica();
+                loptica.gravity+=0.2;
+                loptica.gravitySpeed+=0.5;
+                cigla.fillColor = color2;
+                level++;
+                plocica.dx+=0.3;
+
+            }
+        }
+        function gameOver() {
+            if (lives <= 0) {
+                lost();
+                game_over = true;
+
+                localStorage.setItem("mostRecentScore", score);
+
+                     }
+        }
+        function drawStats(text, textX, textY, img, imgX, imgY) {
+            ctx.font = "16px Arial"
+            ctx.fillStyle = "white";
+            ctx.fillText(text, textX, textY);
+
+            ctx.drawImage(img, imgX, imgY, width = 25, height = 25)
+
+        }
+
+        function drawLives() {
+ 
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#0095DD";
+            // ctx.fillText("Lives: " + lives, canvas.width - 105, 20);
+
+        }
+
+        const gett = document.getElementById("soundd");
+        gett.addEventListener("click", audiom);
+        function audiom() {
+            var imgsrc = gett.getAttribute("src")
+            var soundimg = imgsrc == "img/soundon.jpg" ? "img/soundoff.jpg" : "img/soundon.jpg"
+            gett.setAttribute("src", soundimg);
+            wall.muted = wall.muted ? false : true;
+            pobeda.muted = pobeda.muted ? false : true;
+            plocicae.muted = plocicae.muted ? false : true;
+            lifelost.muted = lifelost.muted ? false : true;
+            udaraccigla.muted = udaraccigla.muted ? false : true;
+
+
+
+        }
+        const statistika=document.getElementById("statistika");
+        const gameover = document.getElementById("gameover");
+        const loose = document.getElementById("loose");
+
+        const victoryroyale = document.getElementById("victoryroyale");
+
+        const restart = document.getElementById("restart");
+
+        restart.addEventListener("click", function () {
+            location.reload()
+        })
+        
+        function win() {
+            gameover.style.display = "block";
+            victoryroyale.style.display = "block";
+            statistika.style.display="block";
+
+
+
+        }
+        function lost() {
+            gameover.style.display = "block";
+            loose.style.display = "block";
+            statistika.style.display="block";
+
+
+
+        }
+
+        function draw() {
+
+
+
+            drawplocica();
+            nacrtajLopticu();
+            nacrtajCigle();
+            drawStats(score, 35, 25, scoreimg, 5, 5);
+            drawStats(lives, canvas.width - 25, 25, lifeimg, canvas.width - 55, 5);
+            drawStats(level, canvas.width / 2, 25, levelimg, canvas.width / 2 - 30, 5);
+            drawLives();
+
+        }
+        function update() {
+
+            moveplocica();
+            pomerilopticu();
+            koliyijaLopticeZida();
+            kolizijalopticaplocica();
+            kolizijazidloptica();
+            gameOver();
+            levelup();
+        }
+        function loop() {
+            ctx.drawImage(bgimg, 0, 0);
+            draw();
+            update();
+            if (!game_over) {
+                requestAnimationFrame(loop);
+
+            }
+        }
+        loop();
+
+        function promeniboju() {
+            hex = Math.floor(Math.random() * 1000000) + 1;
+            color = '' + '#' + hex + '';
+            return color;
+        }
+
+        function scoresubmit() {
+            //   var name = prompt("Unesi svoje ime:");
+            const username = document.getElementById("username");
+            const saveScoreBtn = document.getElementById("saveScoreBtn");
+            const finalScore = document.getElementById("finalScore");
+            const mostRecentScore = localStorage.getItem("mostRecentScore");
+
+            const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+            const MAX_HIGH_SCORES = 5;
+
+            //finalScore.innerText = mostRecentScore;
+
+            username.addEventListener("keyup", () => {
+                saveScoreBtn.disabled = !username.value;
+            });
+
+            saveHighScore = e => {
+
+                e.preventDefault();
+
+                const score = {
+                    score: mostRecentScore,
+                    name: username.value
+                };
+                highScores.push(score);
+                highScores.sort((a, b) => b.score - a.score);
+                highScores.splice(5);
+
+                localStorage.setItem("highScores", JSON.stringify(highScores));
+                
+
+                console.log(highScores);
+            };
+
+
+
+        }
+    </script>
+
+</body>
+
+</html>

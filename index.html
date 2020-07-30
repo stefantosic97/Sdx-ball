@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"  type="text/css" href="index.css">
+
+    <title>Početna</title>
+  
+  
+</head>
+
+
+
+<body onload="fort.play()" >
+
+    <div class="manu" id="menu">
+        
+      <h1>SDX Ball</h1>
+    <ul>
+      <a href="sdxball.html" onmouseenter=" audio1.play();"><li id="igraj"  >Igraj</li></a>
+     <a href="statistika.html"><li id="stat" onmouseenter=" audio1.play();">Rang lista</li></a> 
+     <a href="about.html"> <li id="about" onmouseenter=" audio1.play();">O igrici</li></a>
+      <a href="javascript:close_window();" onmouseenter=" audio1.play();"> <li id="exit">Izlaz</li></a>
+
+    </ul>
+    
+    </div>
+    <div class="sound">
+         
+        <img src="img/soundon.jpg" alt="" id="sounddd"  >
+        
+   </div>
+   <audio id="audioID">
+    <source src="zvukovi/paddle.wav" type="audio/wav">
+    
+  
+  </audio>
+  <script src="index.js"></script>
+
+</body>
+</html>
